@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem' }}>
       <div>
-        <Link to="/">QuizzyTrain</Link>
+        <Link to="/">QuizzyLearn</Link>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <Link to="/rating">Рейтинг</Link>
