@@ -18,7 +18,9 @@ class ApiClient {
       getCurrentUser: this.getCurrentUser.bind(this),
       updateProfile: this.updateProfile.bind(this),
       uploadAvatar: this.uploadAvatar.bind(this),
-      getProgress: this.getProgress.bind(this)
+      getProgress: this.getProgress.bind(this),
+      getUserProfile: this.getUserProfile.bind(this),
+      getUserProgress: this.getUserProgress.bind(this)
     };
     
     // Bind task methods
@@ -28,7 +30,9 @@ class ApiClient {
       startTask: this.startTask.bind(this),
       solve: this.solve.bind(this),
       executeQuery: this.executeQuery.bind(this),
-      visualizeDb: this.visualizeDb.bind(this)
+      visualizeDb: this.visualizeDb.bind(this),
+      getTop: this.getTop.bind(this),
+      uploadTask: this.uploadTask.bind(this)
     };
   }
 
@@ -143,6 +147,10 @@ class ApiClient {
     return this.request('/task/user/progress');
   }
 
+  async getUserProfile(username) {
+    return this.request(`/user/${username}`);
+  }
+
   // Task methods
   async getAll() {
     return this.request('/task/all');
@@ -172,6 +180,43 @@ class ApiClient {
 
   async visualizeDb(taskId) {
     return this.request(`/task/${taskId}/visualize`);
+  }
+
+  async getTop() {
+    return this.request('/user/top');
+  }
+
+  async getUserProgress(username) {
+    return this.request(`/user/progress/${username}`);
+  }
+
+  async uploadTask({ name, description, level, answer, price, file }) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const queryParams = new URLSearchParams({
+      name,
+      description,
+      level,
+      answer,
+      price
+    }).toString();
+
+    const response = await fetch(`${API_URL}/admin/upload-task/?${queryParams}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      },
+      body: formData,
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.detail || 'Failed to upload task');
+    }
+
+    return data;
   }
 }
 

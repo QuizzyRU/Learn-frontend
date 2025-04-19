@@ -5,7 +5,10 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Home from './pages/Home';
 import TaskDetail from './pages/TaskDetail';
+import UserProfile from './pages/UserProfile';
 import Navbar from './components/ui/Navbar';
+import Rating from './pages/Rating';
+import AdminPanel from './pages/AdminPanel';
 
 function PrivateRoute({ children }) {
   const { user } = useAuth();
@@ -55,6 +58,28 @@ function App() {
                 <TaskDetail />
               </PrivateRoute>
             } 
+          />
+          <Route 
+            path="/user/:username" 
+            element={
+              <PrivateRoute>
+                <UserProfile />
+              </PrivateRoute>
+            } 
+          />
+          <Route
+            path="/rating"
+            element={
+              <Rating />
+            }
+          />
+          <Route 
+            path="/admin" 
+            element={
+              <PrivateRoute>
+                <AdminPanel />
+              </PrivateRoute>
+            }
           />
         </Routes>
       </Router>

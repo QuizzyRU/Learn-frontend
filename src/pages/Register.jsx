@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import api from '../api/client';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -18,7 +19,8 @@ export default function Register() {
     try {
       setError('');
       setLoading(true);
-      await register(formData);
+      console.log(formData);
+      await api.auth.register(formData.username, formData.password, formData.name);
       navigate('/login');
     } catch (err) {
       setError(err.message);
@@ -106,7 +108,9 @@ export default function Register() {
             id="password"
             type="password"
             value={formData.password}
-            onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+            onChange={(e) => setFormData((prev) => {
+              return { ...prev, password: e.target.value };
+            })}
             style={{
               width: '100%',
               padding: '8px',

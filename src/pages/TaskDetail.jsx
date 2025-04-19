@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import DatabaseViewer from '../components/tasks/DatabaseViewer'
 import api from '../api/client'
@@ -12,6 +12,8 @@ export default function TaskDetail() {
   const [dbStructure, setDbStructure] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     const loadData = async () => {
@@ -46,6 +48,7 @@ export default function TaskDetail() {
     try {
       await api.task.solve(id, answer)
       alert('Ответ отправлен успешно!')
+      await navigate("/profile")
     } catch (error) {
       alert(error.message || 'Ошибка при отправке ответа')
     }
