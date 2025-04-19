@@ -16,6 +16,7 @@ const Navbar = () => {
         <Link to="/">QuizzyTrain</Link>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <Link to="/rating">Рейтинг</Link>
         <Link to="/">Домашняя страница</Link>
         {user ? (
           <>
